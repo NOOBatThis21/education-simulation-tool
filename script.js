@@ -31,8 +31,10 @@ document.getElementById('generateHypothesis').addEventListener('click', function
         hypothesisOutput.textContent = hypothesis;
         addToList('hypotheses', hypothesis);
         displayList('hypotheses', 'savedHypotheses');
+        showFeedback('Hypothesis generated successfully!', 'success');
     } else {
         hypothesisOutput.textContent = 'Please fill in both parts of the hypothesis.';
+        showFeedback('Please fill in both parts of the hypothesis.', 'error');
     }
 });
 
@@ -45,8 +47,10 @@ document.getElementById('generateQuestion').addEventListener('click', function()
         questionOutput.textContent = question;
         addToList('questions', question);
         displayList('questions', 'savedQuestions');
+        showFeedback('Question generated successfully!', 'success');
     } else {
         questionOutput.textContent = 'Please enter a question.';
+        showFeedback('Please enter a question.', 'error');
     }
 });
 
@@ -56,29 +60,51 @@ window.onload = function() {
     displayList('questions', 'savedQuestions');
 };
 
-// Template event listeners
-document.getElementById('hypothesisTemplate').addEventListener('change', function() {
-    const template = this.value;
-    const ifPart = document.getElementById('ifPart');
-    const thenPart = document.getElementById('thenPart');
+// Show feedback in modal
+function showFeedback(message, type) {
+    const feedbackText = document.getElementById('feedbackText');
+    feedbackText.textContent = message;
+    feedbackText.className = type;
+    const feedbackModal = document.getElementById('feedbackModal');
+    feedbackModal.style.display = 'block';
+    setTimeout(() => {
+        feedbackModal.style.display = 'none';
+    }, 2000);
+}
 
-    if (template) {
-        const parts = template.split('[condition]');
-        ifPart.value = parts[0];
-        thenPart.value = parts[1].replace(' [result].', '');
-    } else {
-        ifPart.value = '';
-        thenPart.value = '';
+// Get the modal
+var modal = document.getElementById('feedbackModal');
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName('close')[0];
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = 'none';
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = 'none';
     }
+}
+
+// Save and Load Progress
+document.getElementById('saveProgress').addEventListener('click', function() {
+    const hypotheses = loadFromLocalStorage('hypotheses');
+    const questions = loadFromLocalStorage('questions');
+    saveToLocalStorage('savedHypotheses', hypotheses);
+    saveToLocalStorage('savedQuestions', questions);
+    showFeedback('Progress saved successfully!', 'success');
 });
 
-document.getElementById('questionTemplate').addEventListener('change', function() {
-    const template = this.value;
-    const questionPart = document.getElementById('questionPart');
-
-    if (template) {
-        questionPart.value = template.replace('[variable]', '');
-    } else {
-        questionPart.value = '';
-    }
+document.getElementById('loadProgress').addEventListener('click', function() {
+    const savedHypotheses = loadFromLocalStorage('savedHypotheses');
+    const savedQuestions = loadFromLocalStorage('savedQuestions');
+    saveToLocalStorage('hypotheses', savedHypotheses);
+    saveToLocalStorage('questions', savedQuestions);
+    displayList('hypotheses', 'savedHypotheses');
+    displayList('questions', 'savedQuestions');
+    showFeedback('Progress loaded successfully!', 'success');
 });
