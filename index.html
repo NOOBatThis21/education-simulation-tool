@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Education Simulation Tool</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Education Simulation Tool</h1>
+        <div class="section" id="hypothesis-section">
+            <h2>Hypothesis Generation</h2>
+            <p>Use the template or create your own hypothesis:</p>
+            <select id="hypothesisTemplate">
+                <option value="">Select a template</option>
+                <option value="If [condition], then [result].">If [condition], then [result].</option>
+                <option value="If [variable] is changed, then [effect] will happen.">If [variable] is changed, then [effect] will happen.</option>
+            </select>
+            <label for="ifPart">If</label>
+            <input type="text" id="ifPart" placeholder="Enter the condition">
+            <label for="thenPart">Then</label>
+            <input type="text" id="thenPart" placeholder="Enter the result">
+            <button id="generateHypothesis">Generate Hypothesis</button>
+            <div id="hypothesisOutput" class="output"></div>
+        </div>
+        <div class="section" id="question-section">
+            <h2>Question Generation</h2>
+            <p>Use the template or create your own question:</p>
+            <select id="questionTemplate">
+                <option value="">Select a template</option>
+                <option value="What happens if [variable]?">What happens if [variable]?</option>
+                <option value="How does [variable] affect [result]?">How does [variable] affect [result]?</option>
+            </select>
+            <label for="questionPart">Question</label>
+            <input type="text" id="questionPart" placeholder="Enter your question">
+            <button id="generateQuestion">Generate Question</button>
+            <div id="questionOutput" class="output"></div>
+        </div>
+        <div class="section" id="saved-hypotheses-section">
+            <h2>Saved Hypotheses</h2>
+            <div id="savedHypotheses" class="output"></div>
+        </div>
+        <div class="section" id="saved-questions-section">
+            <h2>Saved Questions</h2>
+            <div id="savedQuestions" class="output"></div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
