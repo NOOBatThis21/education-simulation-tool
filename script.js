@@ -32,6 +32,7 @@ document.getElementById('generateHypothesis').addEventListener('click', function
         addToList('hypotheses', hypothesis);
         displayList('hypotheses', 'savedHypotheses');
         showFeedback('Hypothesis generated successfully!', 'success');
+        displayExample('exampleHypotheses');
     } else {
         hypothesisOutput.textContent = 'Please fill in both parts of the hypothesis.';
         showFeedback('Please fill in both parts of the hypothesis.', 'error');
@@ -48,6 +49,7 @@ document.getElementById('generateQuestion').addEventListener('click', function()
         addToList('questions', question);
         displayList('questions', 'savedQuestions');
         showFeedback('Question generated successfully!', 'success');
+        displayExample('exampleQuestions');
     } else {
         questionOutput.textContent = 'Please enter a question.';
         showFeedback('Please enter a question.', 'error');
@@ -108,3 +110,13 @@ document.getElementById('loadProgress').addEventListener('click', function() {
     displayList('questions', 'savedQuestions');
     showFeedback('Progress loaded successfully!', 'success');
 });
+
+// Display examples
+function displayExample(exampleId) {
+    const exampleElement = document.getElementById(exampleId);
+    exampleElement.style.display = 'block';
+    exampleElement.style.opacity = 0;
+    setTimeout(() => {
+        exampleElement.style.opacity = 1;
+    }, 100);
+}

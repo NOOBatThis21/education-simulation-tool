@@ -7,6 +7,16 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    animation: backgroundAnimation 10s infinite alternate;
+}
+
+@keyframes backgroundAnimation {
+    from {
+        background-color: #f0f0f0;
+    }
+    to {
+        background-color: #e0f7fa;
+    }
 }
 
 .container {
@@ -16,6 +26,18 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     max-width: 600px;
     width: 100%;
+    animation: containerAnimation 1s ease-out;
+}
+
+@keyframes containerAnimation {
+    from {
+        transform: scale(0.9);
+        opacity: 0.5;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 h1 {
@@ -25,6 +47,16 @@ h1 {
 
 .section {
     margin-bottom: 20px;
+    animation: sectionFadeIn 1s ease-out;
+}
+
+@keyframes sectionFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 label {
@@ -51,11 +83,12 @@ button {
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 button:hover {
     background-color: #0056b3;
+    transform: scale(1.05);
 }
 
 .output {
@@ -67,6 +100,23 @@ button:hover {
     overflow-y: auto;
     opacity: 0;
     animation: fadeIn 1s forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+.examples {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f1f8e9;
+    border-radius: 4px;
+}
+
+.examples h3 {
+    margin-top: 0;
 }
 
 #hypothesis-section {
@@ -109,6 +159,18 @@ button:hover {
     border: 1px solid #888;
     width: 80%;
     border-radius: 8px;
+    animation: modalFadeIn 0.5s ease-out;
+}
+
+@keyframes modalFadeIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0.5;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 .close {
@@ -123,5 +185,3 @@ button:hover {
     text-decoration: none;
     cursor: pointer;
 }
-
-@keyframes f
