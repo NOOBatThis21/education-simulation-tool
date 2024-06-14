@@ -59,9 +59,9 @@
             <h2>Saved Questions</h2>
             <div id="savedQuestions" class="output"></div>
         </div>
-        <div class="section" id="save-load-section">
+        <div class="section" id="save-section">
             <button id="saveProgress">Save Progress</button>
-            <button id="loadProgress">Load Progress</button>
+            <button id="finishSimulation">Finish Simulation</button>
         </div>
     </div>
 
@@ -70,6 +70,28 @@
         <div class="modal-content">
             <span class="close">&times;</span>
             <p id="feedbackText"></p>
+        </div>
+    </div>
+
+    <!-- Confirmation Page -->
+    <div id="confirmationPage" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Simulation Completed</h2>
+            <p>Your simulation has been completed. The purpose of this simulation is to help you generate hypotheses and questions based on scientific principles.</p>
+            <button id="viewSimulation">View Simulation</button>
+        </div>
+    </div>
+
+    <!-- Simulation Animation Page -->
+    <div id="animationPage" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Simulation Animation</h2>
+            <div id="simulationAnimation" class="animation">
+                <!-- Add your animated simulation content here -->
+                <p>Imagine an animated process here showing how the hypotheses and questions interact.</p>
+            </div>
         </div>
     </div>
 

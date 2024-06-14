@@ -75,24 +75,32 @@ function showFeedback(message, type) {
 }
 
 // Get the modal
-var modal = document.getElementById('feedbackModal');
+var feedbackModal = document.getElementById('feedbackModal');
+var confirmationModal = document.getElementById('confirmationPage');
+var animationModal = document.getElementById('animationPage');
 
 // Get the <span> element that closes the modal
-var span = document.getElementsByClassName('close')[0];
+var span = document.getElementsByClassName('close');
 
 // When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-    modal.style.display = 'none';
+for (var i = 0; i < span.length; i++) {
+    span[i].onclick = function() {
+        this.parentElement.parentElement.style.display = 'none';
+    }
 }
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = 'none';
+    if (event.target == feedbackModal) {
+        feedbackModal.style.display = 'none';
+    } else if (event.target == confirmationModal) {
+        confirmationModal.style.display = 'none';
+    } else if (event.target == animationModal) {
+        animationModal.style.display = 'none';
     }
 }
 
-// Save and Load Progress
+// Save Progress
 document.getElementById('saveProgress').addEventListener('click', function() {
     const hypotheses = loadFromLocalStorage('hypotheses');
     const questions = loadFromLocalStorage('questions');
@@ -101,14 +109,15 @@ document.getElementById('saveProgress').addEventListener('click', function() {
     showFeedback('Progress saved successfully!', 'success');
 });
 
-document.getElementById('loadProgress').addEventListener('click', function() {
-    const savedHypotheses = loadFromLocalStorage('savedHypotheses');
-    const savedQuestions = loadFromLocalStorage('savedQuestions');
-    saveToLocalStorage('hypotheses', savedHypotheses);
-    saveToLocalStorage('questions', savedQuestions);
-    displayList('hypotheses', 'savedHypotheses');
-    displayList('questions', 'savedQuestions');
-    showFeedback('Progress loaded successfully!', 'success');
+// Finish Simulation
+document.getElementById('finishSimulation').addEventListener('click', function() {
+    confirmationModal.style.display = 'block';
+});
+
+// View Simulation Animation
+document.getElementById('viewSimulation').addEventListener('click', function() {
+    confirmationModal.style.display = 'none';
+    animationModal.style.display = 'block';
 });
 
 // Display examples

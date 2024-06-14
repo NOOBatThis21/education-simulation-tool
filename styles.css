@@ -1,187 +1,131 @@
-body {
-    font-family: 'Comic Sans MS', sans-serif;
-    background-color: #f0f0f0;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    animation: backgroundAnimation 10s infinite alternate;
+// Utility functions to handle localStorage
+function saveToLocalStorage(key, data) {
+    localStorage.setItem(key, JSON.stringify(data));
 }
 
-@keyframes backgroundAnimation {
-    from {
-        background-color: #f0f0f0;
+function loadFromLocalStorage(key) {
+    const data = localStorage.getItem(key);
+    return data ? JSON.parse(data) : [];
+}
+
+function addToList(key, item) {
+    const items = loadFromLocalStorage(key);
+    items.push(item);
+    saveToLocalStorage(key, items);
+}
+
+function displayList(key, elementId) {
+    const items = loadFromLocalStorage(key);
+    const outputElement = document.getElementById(elementId);
+    outputElement.innerHTML = items.map(item => `<p>${item}</p>`).join('');
+}
+
+// Event listeners for generating hypotheses and questions
+document.getElementById('generateHypothesis').addEventListener('click', function() {
+    const ifPart = document.getElementById('ifPart').value;
+    const thenPart = document.getElementById('thenPart').value;
+    const hypothesisOutput = document.getElementById('hypothesisOutput');
+
+    if (ifPart && thenPart) {
+        const hypothesis = `If ${ifPart}, then ${thenPart}.`;
+        hypothesisOutput.textContent = hypothesis;
+        addToList('hypotheses', hypothesis);
+        displayList('hypotheses', 'savedHypotheses');
+        showFeedback('Hypothesis generated successfully!', 'success');
+        displayExample('exampleHypotheses');
+    } else {
+        hypothesisOutput.textContent = 'Please fill in both parts of the hypothesis.';
+        showFeedback('Please fill in both parts of the hypothesis.', 'error');
     }
-    to {
-        background-color: #e0f7fa;
+});
+
+document.getElementById('generateQuestion').addEventListener('click', function() {
+    const questionPart = document.getElementById('questionPart').value;
+    const questionOutput = document.getElementById('questionOutput');
+
+    if (questionPart) {
+        const question = `What happens if ${questionPart}?`;
+        questionOutput.textContent = question;
+        addToList('questions', question);
+        displayList('questions', 'savedQuestions');
+        showFeedback('Question generated successfully!', 'success');
+        displayExample('exampleQuestions');
+    } else {
+        questionOutput.textContent = 'Please enter a question.';
+        showFeedback('Please enter a question.', 'error');
     }
+});
+
+// Load and display saved data on page load
+window.onload = function() {
+    displayList('hypotheses', 'savedHypotheses');
+    displayList('questions', 'savedQuestions');
+};
+
+// Show feedback in modal
+function showFeedback(message, type) {
+    const feedbackText = document.getElementById('feedbackText');
+    feedbackText.textContent = message;
+    feedbackText.className = type;
+    const feedbackModal = document.getElementById('feedbackModal');
+    feedbackModal.style.display = 'block';
+    setTimeout(() => {
+        feedbackModal.style.display = 'none';
+    }, 2000);
 }
 
-.container {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    width: 100%;
-    animation: containerAnimation 1s ease-out;
-}
+// Get the modal
+var feedbackModal = document.getElementById('feedbackModal');
+var confirmationModal = document.getElementById('confirmationPage');
+var animationModal = document.getElementById('animationPage');
 
-@keyframes containerAnimation {
-    from {
-        transform: scale(0.9);
-        opacity: 0.5;
-    }
-    to {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName('close');
 
-h1 {
-    text-align: center;
-    color: #007BFF;
-}
-
-.section {
-    margin-bottom: 20px;
-    animation: sectionFadeIn 1s ease-out;
-}
-
-@keyframes sectionFadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-label {
-    display: block;
-    margin-top: 10px;
-    color: #333;
-}
-
-input, select {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-}
-
-button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-button:hover {
-    background-color: #0056b3;
-    transform: scale(1.05);
-}
-
-.output {
-    margin-top: 10px;
-    padding: 10px;
-    background-color: #e9ecef;
-    border-radius: 4px;
-    max-height: 150px;
-    overflow-y: auto;
-    opacity: 0;
-    animation: fadeIn 1s forwards;
-}
-
-@keyframes fadeIn {
-    to {
-        opacity: 1;
+// When the user clicks on <span> (x), close the modal
+for (var i = 0; i < span.length; i++) {
+    span[i].onclick = function() {
+        this.parentElement.parentElement.style.display = 'none';
     }
 }
 
-.examples {
-    margin-top: 20px;
-    padding: 10px;
-    background-color: #f1f8e9;
-    border-radius: 4px;
-}
-
-.examples h3 {
-    margin-top: 0;
-}
-
-#hypothesis-section {
-    background: #FFECB3;
-    padding: 10px;
-    border-radius: 8px;
-}
-
-#question-section {
-    background: #FFCDD2;
-    padding: 10px;
-    border-radius: 8px;
-}
-
-#saved-hypotheses-section, #saved-questions-section {
-    background: #E1F5FE;
-    padding: 10px;
-    border-radius: 8px;
-}
-
-/* Modal styles */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgb(0,0,0);
-    background-color: rgba(0,0,0,0.4);
-    padding-top: 60px;
-}
-
-.modal-content {
-    background-color: #fefefe;
-    margin: 5% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    border-radius: 8px;
-    animation: modalFadeIn 0.5s ease-out;
-}
-
-@keyframes modalFadeIn {
-    from {
-        transform: scale(0.9);
-        opacity: 0.5;
-    }
-    to {
-        transform: scale(1);
-        opacity: 1;
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == feedbackModal) {
+        feedbackModal.style.display = 'none';
+    } else if (event.target == confirmationModal) {
+        confirmationModal.style.display = 'none';
+    } else if (event.target == animationModal) {
+        animationModal.style.display = 'none';
     }
 }
 
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
+// Save Progress
+document.getElementById('saveProgress').addEventListener('click', function() {
+    const hypotheses = loadFromLocalStorage('hypotheses');
+    const questions = loadFromLocalStorage('questions');
+    saveToLocalStorage('savedHypotheses', hypotheses);
+    saveToLocalStorage('savedQuestions', questions);
+    showFeedback('Progress saved successfully!', 'success');
+});
 
-.close:hover, .close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
+// Finish Simulation
+document.getElementById('finishSimulation').addEventListener('click', function() {
+    confirmationModal.style.display = 'block';
+});
+
+// View Simulation Animation
+document.getElementById('viewSimulation').addEventListener('click', function() {
+    confirmationModal.style.display = 'none';
+    animationModal.style.display = 'block';
+});
+
+// Display examples
+function displayExample(exampleId) {
+    const exampleElement = document.getElementById(exampleId);
+    exampleElement.style.display = 'block';
+    exampleElement.style.opacity = 0;
+    setTimeout(() => {
+        exampleElement.style.opacity = 1;
+    }, 100);
 }
